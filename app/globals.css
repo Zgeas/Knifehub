@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+:root {
+  --background: #e4e8ed;
+  --foreground: #1a2028;
+  --border: #bcc4ce;
+  --steel-shine: rgba(255, 255, 255, 0.55);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e1116;
+    --foreground: #e2e6eb;
+    --border: #2e3742;
+    --steel-shine: rgba(255, 255, 255, 0.07);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-steel-50: #f0f2f5;
+  --color-steel-100: #e2e6eb;
+  --color-steel-200: #c8d0da;
+  --color-steel-300: #a8b4c0;
+  --color-steel-400: #8494a3;
+  --color-steel-500: #647386;
+  --color-steel-600: #4d5d6d;
+  --color-steel-700: #3a4755;
+  --color-steel-800: #28323c;
+  --color-steel-900: #1a2129;
+  --color-steel-950: #0e1116;
+}
+
+html {
+  background-color: var(--background);
+}
+
+body {
+  background-color: transparent;
+  background-image:
+    radial-gradient(ellipse 85% 55% at 50% -15%, rgba(168, 180, 192, 0.2), transparent 68%),
+    linear-gradient(180deg, color-mix(in srgb, var(--background) 88%, #ffffff) 0%, var(--background) 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100vh;
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image:
+      radial-gradient(ellipse 75% 45% at 50% 0%, rgba(100, 115, 134, 0.16), transparent 62%),
+      linear-gradient(180deg, #131820 0%, var(--background) 100%);
+  }
+}
+
+@layer components {
+  .surface-panel {
+    @apply border border-steel-200/90 bg-gradient-to-b from-steel-50 to-steel-100/70 dark:border-steel-700/70 dark:from-steel-900/95 dark:to-steel-950/90;
+    box-shadow:
+      inset 0 1px 0 var(--steel-shine),
+      0 1px 2px rgba(15, 18, 24, 0.05);
+  }
+
+  .surface-header {
+    @apply border-b border-steel-200/80 bg-steel-50/85 backdrop-blur-sm dark:border-steel-700/60 dark:bg-steel-950/75;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .surface-panel {
+      box-shadow:
+        inset 0 1px 0 var(--steel-shine),
+        0 1px 3px rgba(0, 0, 0, 0.28);
+    }
+
+    .surface-header {
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+    }
+  }
+
+  .metallic-text {
+    background: linear-gradient(165deg, #8a96a3 0%, #3d4854 42%, #5c6a78 78%, #2a333d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .metallic-text {
+      background: linear-gradient(165deg, #c8d0d8 0%, #8a98a8 38%, #b8c2cc 72%, #6b7888 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .field-input {
+    @apply rounded-md border border-steel-300/80 bg-steel-50/60 px-3 py-2 text-sm text-foreground outline-none transition dark:border-steel-600/80 dark:bg-steel-900/50;
+    box-shadow: inset 0 1px 2px rgba(15, 18, 24, 0.04);
+  }
+
+  .field-input:focus {
+    @apply border-steel-400 ring-1 ring-steel-400/25 dark:border-steel-500 dark:ring-steel-500/20;
+  }
+
+  .btn-primary {
+    @apply rounded-md bg-gradient-to-b from-steel-600 to-steel-700 px-4 py-2 text-sm font-medium text-steel-50 shadow-sm transition hover:from-steel-500 hover:to-steel-600 disabled:opacity-50 dark:from-steel-500 dark:to-steel-600 dark:hover:from-steel-400 dark:hover:to-steel-500;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 1px 2px rgba(15, 18, 24, 0.15);
+  }
+
+  .btn-secondary {
+    @apply rounded-md border border-steel-300/90 bg-steel-100/60 px-4 py-2 text-sm font-medium text-steel-700 transition hover:bg-steel-200/70 dark:border-steel-600 dark:bg-steel-800/50 dark:text-steel-200 dark:hover:bg-steel-700/50;
+    box-shadow: inset 0 1px 0 var(--steel-shine);
+  }
+
+  .tag-steel {
+    @apply rounded-full bg-steel-200/60 px-2.5 py-0.5 text-xs font-medium text-steel-700 dark:bg-steel-700/50 dark:text-steel-200;
+    box-shadow: inset 0 1px 0 var(--steel-shine);
+  }
+}

@@ -1,0 +1,183 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//////////////////////////////////////////////////////
+// KNIVES
+//////////////////////////////////////////////////////
+
+model Knife {
+  id               String         @id @default(cuid())
+  name             String
+  description      String?
+  style            String?
+  bladeSteel       String?
+  handleMaterial   String?
+  mitre            String?
+  mitreArriere     String?
+  platines         String?
+  ressort          String?
+  faussePiece      String?
+  inserts          String?
+  intercalaires    String?
+  price            Int?
+  status           KnifeStatus    @default(AVAILABLE)
+
+  artisanProfileId String
+  artisanProfile   ArtisanProfile @relation(fields: [artisanProfileId], references: [id], onDelete: Restrict)
+
+  images           KnifeImage[]
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model KnifeImage {
+  id           String      @id @default(cuid())
+  knifeId      String
+  knife        Knife       @relation(fields: [knifeId], references: [id], onDelete: Cascade)
+
+  url          String
+  alt          String?
+
+  displayOrder Int         @default(0)
+  isCover      Boolean     @default(false)
+
+  angle        ImageAngle?
+  focus        ImageFocus?
+
+  createdAt    DateTime    @default(now())
+
+  @@index([knifeId])
+}
+
+//////////////////////////////////////////////////////
+// USERS (private accounts)
+//////////////////////////////////////////////////////
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String?  @unique
+  role      UserRole @default(USER)
+
+  artisanProfile  ArtisanProfile?
+  following       Follow[]         @relation("UserFollows")
+  followers       Follow[]         @relation("UserFollowers")
+  artisanRequests ArtisanRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//////////////////////////////////////////////////////
+// ARTISAN PROFILES (public identity)
+//////////////////////////////////////////////////////
+
+model ArtisanProfile {
+  id          String  @id @default(cuid())
+  displayName String
+  bio         String?
+  location    String?
+  website     String?
+  instagram   String?
+  facebook    String?
+  x           String?
+  address     String?
+  siret       String?
+  imageUrl    String?
+
+  userId      String? @unique
+  user        User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  knives      Knife[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//////////////////////////////////////////////////////
+// FOLLOW
+//////////////////////////////////////////////////////
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+
+  follower    User     @relation("UserFollows", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+//////////////////////////////////////////////////////
+// ARTISAN REQUESTS
+//////////////////////////////////////////////////////
+
+model ArtisanRequest {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  displayName String
+  bio         String?
+  location    String?
+  website     String?
+  instagram   String?
+  facebook    String?
+  x           String?
+  address     String?
+  siret       String?
+  imageUrl    String?
+
+  status      RequestStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+}
+
+//////////////////////////////////////////////////////
+// ENUMS
+//////////////////////////////////////////////////////
+
+enum KnifeStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+enum UserRole {
+  USER
+  ARTISAN
+  ADMIN
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ImageAngle {
+  LEFT
+  RIGHT
+  TOP
+  BOTTOM
+  FRONT
+  BACK
+  UNKNOWN
+}
+
+enum ImageFocus {
+  FULL
+  BLADE
+  HANDLE
+  DETAIL
+  OTHER
+}
