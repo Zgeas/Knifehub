@@ -21,6 +21,8 @@ Tu es l’agent principal : ne délègue pas cette routine. Fichiers : `docs/FEA
 - Nouvelle fonctionnalité → nouvel `F-xxx` (ne jamais réutiliser un ID retiré) + scénarios.
 - Correction de bug → test de régression.
 - Cosmétique pur : pas de tests artificiels ; ne pas toucher aux statuts sans raison.
+- Toute UI nouvelle ou modifiée doit rester utilisable sur smartphone (~320–430px), tablette et desktop. Prévoir ou adapter les tests `tests/e2e/responsive.spec.ts` (débordement, parcours). Une incompatibilité mobile importante introduite par tes changements n’est pas « terminée ».
+- PWA installable : hors périmètre sauf demande explicite (idée F-023).
 
 ## Après
 

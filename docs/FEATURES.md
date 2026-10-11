@@ -10,31 +10,33 @@ Les statuts `TESTED` ci-dessous ne s’appliquent qu’après exécution réelle
 
 ## Synthèse
 
-| ID | Nom | État | Périmètre de validation |
-| --- | --- | --- | --- |
-| F-001 | Compte à la connexion | TESTED | E2E session USER ; pas de lecture SQL du user |
-| F-002 | Connexion e-mail | TESTED | E2E ; e-mail invalide = HTML5 ; pas de mot de passe |
-| F-003 | Déconnexion | TESTED | E2E |
-| F-004 | Session cookie | TESTED | Gardes `/profile` et `/admin` anonymes |
-| F-005 | Fil public | TESTED | E2E titre du couteau seed |
-| F-006 | Recherche et filtres du fil | NEEDS_REVIEW | Unitaires OK ; hydratation SearchBar / ESLint |
-| F-007 | Annuaire artisans | TESTED | Intégration Prisma `knives: { some }` ; pas E2E page |
-| F-008 | Page artisan publique | TESTED | E2E 404 ; liens unitaires |
-| F-009 | Fiche couteau | TESTED | E2E 404 ; prix unitaire |
-| F-010 | Candidature artisan | TESTED | Parseurs + garde PENDING Prisma ; pas HTTP API |
-| F-011 | Modération candidatures | TESTED | Parse JSON + transaction Prisma + E2E garde admin |
-| F-012 | Création couteau | TESTED | Champs unitaires + create Prisma |
-| F-013 | Édition couteau | TESTED | Update Prisma ; 404 autre propriétaire non E2E |
-| F-014 | Images de couteau | TESTED | Parseurs unitaires |
-| F-015 | Upload fichiers | TESTED | MIME/taille unitaires ; pas POST `/api/upload` |
-| F-016 | Édition profil artisan | TESTED | Parse null + update Prisma ; pas E2E formulaire |
-| F-017 | Photo de profil | IMPLEMENTED_UNVERIFIED | Dossiers upload seulement |
-| F-018 | Navigation | TESTED | E2E liens KnifeHub / Fil |
-| F-019 | Rôles et garde-fous | TESTED | Bootstrap unitaire + redirections E2E |
-| F-020 | Suivi (Follow) | PLANNED | Schéma uniquement |
-| F-021 | Promotion admin bootstrap | TESTED | Unitaire `isBootstrapAdmin` |
+| ID | Nom | État | Mobile | Périmètre de validation |
+| --- | --- | --- | --- | --- |
+| F-001 | Compte à la connexion | TESTED | TESTED | E2E session USER ; pas de lecture SQL du user |
+| F-002 | Connexion e-mail | TESTED | TESTED | E2E ; e-mail invalide = HTML5 ; `/login` 320–1280 |
+| F-003 | Déconnexion | TESTED | PARTIEL | E2E desktop ; bouton visible dans le menu 375px |
+| F-004 | Session cookie | TESTED | N/A | Gardes `/profile` et `/admin` anonymes |
+| F-005 | Fil public | TESTED | TESTED | E2E titre du couteau seed ; overflow 320–1280 |
+| F-006 | Recherche et filtres du fil | NEEDS_REVIEW | PARTIEL | SearchBar visible mobile ; filtres non ouverts en E2E ; hydratation SearchBar / ESLint |
+| F-007 | Annuaire artisans | TESTED | TESTED | `/artisans` E2E overflow |
+| F-008 | Page artisan publique | TESTED | TESTED | E2E 404 + page seed overflow |
+| F-009 | Fiche couteau | TESTED | TESTED | E2E 404 + fiche 375px |
+| F-010 | Candidature artisan | TESTED | PARTIEL | Champs min-h-11 ; pas d’E2E saisie mobile |
+| F-011 | Modération candidatures | TESTED | PARTIEL | Tableau `overflow-x-auto` ; pas d’E2E admin mobile |
+| F-012 | Création couteau | TESTED | PARTIEL | Formulaire / uploader empilés ; pas d’E2E mobile |
+| F-013 | Édition couteau | TESTED | PARTIEL | Même UI que création |
+| F-014 | Images de couteau | TESTED | PARTIEL | Galerie fil 4:3 ; pas E2E max 5 sur mobile |
+| F-015 | Upload fichiers | TESTED | N/A | MIME/taille unitaires ; pas POST `/api/upload` |
+| F-016 | Édition profil artisan | TESTED | PARTIEL | Photo empilée ; pas d’E2E formulaire |
+| F-017 | Photo de profil | IMPLEMENTED_UNVERIFIED | PARTIEL | Dossiers upload seulement |
+| F-018 | Navigation | TESTED | TESTED | E2E desktop + menu compact mobile |
+| F-019 | Rôles et garde-fous | TESTED | N/A | Bootstrap unitaire + redirections E2E |
+| F-020 | Suivi (Follow) | PLANNED | N/A | Schéma uniquement |
+| F-021 | Promotion admin bootstrap | TESTED | N/A | Unitaire `isBootstrapAdmin` |
+| F-022 | Interface responsive | TESTED | TESTED | E2E 320–1280 overflow + parcours |
+| F-023 | PWA installable | PLANNED | N/A | Idée secondaire, non exigée |
 
-Idées **non validées** (pas d’exigence) : favoris, notifications, mot de passe, ateliers distincts des profils artisans.
+Idées **non validées** (pas d’exigence) : favoris, notifications, mot de passe, ateliers distincts des profils artisans, PWA (F-023).
 
 ---
 
@@ -155,8 +157,9 @@ Idées **non validées** (pas d’exigence) : favoris, notifications, mot de pas
 
 ### F-018 — Navigation
 
-- **Attendu** : header sticky. Liens Fil, Artisans, recherche. Connexion / e-mail + déconnexion. USER : Devenir artisan. Artisan+profil : Mon profil, Ajouter un couteau. ADMIN : Admin.
-- **Tests** : TEST-F018-01.
+- **Attendu** : header sticky. Liens Fil, Artisans, recherche toujours visibles. Invité : Connexion. Compte : sous `md`, bouton « Menu » ; à partir de `md`, liens en ligne. USER : Devenir artisan. Artisan+profil : Mon profil, Ajouter un couteau. ADMIN : Admin.
+- **Tests** : TEST-F018-01, TEST-F022-03.
+- **Mobile** : TEST-F022.
 
 ### F-019 — Rôles
 
@@ -173,6 +176,19 @@ Idées **non validées** (pas d’exigence) : favoris, notifications, mot de pas
 - **Attendu** : e-mails listés dans `BOOTSTRAP_ADMIN_EMAILS` obtiennent le rôle ADMIN à la création ou à la connexion si le rôle n’est pas déjà ADMIN.
 - **Limite** : adresses en clair dans le dépôt.
 - **Tests** : TEST-F021-01.
+
+### F-022 — Interface responsive
+
+- **Objectif** : le site reste utilisable sur smartphone, tablette et ordinateur, sans application séparée.
+- **Attendu** : viewport device-width ; pas de débordement horizontal significatif ; navigation (F-018) : Fil/Artisans/Connexion visibles, compte dans un menu « Menu » sous `md` ; champs et boutons assez grands au toucher ; galerie du fil en ratio 4:3 sur petit écran ; filtres du fil repliables (déjà F-006). Favoris et notifications : absents (pas d’UI).
+- **PWA (F-023)** : hors périmètre actuel.
+- **Code** : `app/layout.tsx` (`viewport`), `Navbar`, `SiteMenu`, `globals.css`, galeries, formulaires.
+- **Observé** : E2E 2026-10-11 — 16 Playwright dont 7 responsive ; `scrollWidth` ≤ `clientWidth` à 320–1280 sur fil, login, artisans, fiche. Menu 375px. Navigateur `localhost:3000` : fil, profil, annuaire, page artisan, fiche, formulaire couteau à 375 px ; fil à 768 et 1280.
+- **Tests** : TEST-F022-01 à TEST-F022-03.
+
+### F-023 — PWA installable
+
+- **État** : `PLANNED` (suggestion). Priorité au site responsive, pas à un manifeste / service worker maintenant.
 
 ## Données (confirmé)
 

@@ -19,7 +19,8 @@ Next.js 16 App Router, React 19, Prisma 6, SQLite, Tailwind 4.
 
 - App : `npm run dev` (port 3000, base `.env` / `dev.db`).
 - Qualité : `npm run check` (TypeScript). `npm run lint` signale encore des erreurs préexistantes (voir `docs/TEST-RESULTS.md`).
-- Tests : voir [docs/TESTING.md](docs/TESTING.md) — `npm run test`, `test:integration`, `test:e2e`, `test:all`.
+- Tests : voir [docs/TESTING.md](docs/TESTING.md) — `npm run test`, `test:integration`, `test:e2e` (inclut le responsive), `test:all`.
+- UI : toute nouvelle surface doit rester utilisable sur mobile (F-022) ; PWA (F-023) hors périmètre sauf demande.
 
 ## Contraintes
 

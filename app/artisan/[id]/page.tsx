@@ -61,7 +61,7 @@ export default async function ArtisanProfilePage({ params }: Props) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{name}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight break-words sm:text-3xl md:text-4xl">{name}</h1>
           {artisan.location && (
             <p className={`mt-2 ${mutedTextClassName}`}>{artisan.location}</p>
           )}

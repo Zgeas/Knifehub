@@ -49,6 +49,9 @@ Les scénarios **Automatisé** doivent exister sous forme de fichier de test. **
 | TEST-F019-01 | F-019 | `isBootstrapAdmin` | Unitaire | oui | P0 |
 | TEST-F019-02 | F-019 | `/profile` anonyme → login | E2E | oui | P0 |
 | TEST-F021-01 | F-021 | E-mail bootstrap reconnu | Unitaire | oui | P1 |
+| TEST-F022-01 | F-022 | Pas de débordement horizontal 320–1280 | E2E | oui | P0 |
+| TEST-F022-02 | F-022 | Fiche couteau 375px | E2E | oui | P1 |
+| TEST-F022-03 | F-022 | Menu compte 375px | E2E | oui | P0 |
 | TEST-SEC-01 | F-002, F-015 | Upload anonyme | Manuel | non | P0 |
 | TEST-SEC-02 | F-002 | Auth sans mot de passe | Manuel | non | P0 |
 | TEST-DB-01 | tech | Scripts de test refusent `dev.db` | Unitaire/script | oui | P0 |
@@ -82,6 +85,14 @@ Les scénarios **Automatisé** doivent exister sous forme de fichier de test. **
 - **Attendu** : exception « Type de fichier non pris en charge ».
 - **Pas d’écriture disque**.
 
+### TEST-F022-01
+
+- **Prérequis** : `prisma/test.db` seed, Playwright Chromium.
+- **Viewports** : 320, 375, 430, 768, 1280 × 800.
+- **Étapes** : `/`, `/login`, `/artisans`, page « Atelier Test ».
+- **Attendu** : liens Fil / Artisans / Connexion / KnifeHub visibles ; `documentElement.scrollWidth ≤ clientWidth + 1`.
+- **Fichier** : `tests/e2e/responsive.spec.ts`.
+
 ### TEST-DB-01
 
 - **Étapes** : `isForbiddenDevDatabaseUrl('file:./dev.db')` vrai ; URL `test.db` faux.
@@ -92,7 +103,8 @@ Les scénarios **Automatisé** doivent exister sous forme de fichier de test. **
 - Vrai POST `/api/upload` avec session cookie (besoin de mock Next cookies).
 - Concurrence deux onglets.
 - CSRF au-delà de sameSite.
-- Accessibilité, perf, mobile.
+- Accessibilité, perf.
+- Formulaires artisan / couteau / profil sur viewport mobile (tap OK via CSS ; pas d’E2E de saisie complète).
 - Hydratation SearchBar (manuel jusqu’à correction F-006).
 - Suppression de couteau (fonctionnalité absente).
 

@@ -16,7 +16,7 @@
 | `npm run test` | Tests unitaires Vitest (`lib/**/*.test.ts`) | Non | Non | Oui |
 | `npm run test:db:prepare` | `prisma db push` + seed sur `prisma/test.db` uniquement | Non | Test | Prérequis intégration / E2E |
 | `npm run test:integration` | Prépare la base test puis Vitest intégration | Non | Test | Oui |
-| `npm run test:e2e` | Prépare `test.db`, **build** Next, Playwright + `next start` **3100** | `next start` 3100 (pas `next dev`, pour coexister avec le serveur 3000) | Test | Oui si Chromium Playwright est installé |
+| `npm run test:e2e` | Prépare `test.db`, **build** Next, Playwright + `next start` **3100** (auth, gardes, **responsive** `tests/e2e/responsive.spec.ts`) | `next start` 3100 (pas `next dev`, pour coexister avec le serveur 3000) | Test | Oui si Chromium Playwright est installé |
 | `npm run test:all` | `check` + unitaires + intégration + E2E (sans lint) | Voir E2E | Test pour intégration/E2E | Campagne complète |
 | `npm run build` | Build de production Next | Non | Utilise `DATABASE_URL` du shell / `.env` | Facultatif ; ne pas lancer avec un reset destructif |
 

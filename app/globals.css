@@ -37,6 +37,7 @@
 
 html {
   background-color: var(--background);
+  overflow-x: clip;
 }
 
 body {
@@ -49,6 +50,7 @@ body {
   background-size: 100% 100vh;
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: clip;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -101,7 +103,7 @@ body {
   }
 
   .field-input {
-    @apply rounded-md border border-steel-300/80 bg-steel-50/60 px-3 py-2 text-sm text-foreground outline-none transition dark:border-steel-600/80 dark:bg-steel-900/50;
+    @apply min-h-11 rounded-md border border-steel-300/80 bg-steel-50/60 px-3 py-2 text-base text-foreground outline-none transition md:min-h-0 md:text-sm dark:border-steel-600/80 dark:bg-steel-900/50;
     box-shadow: inset 0 1px 2px rgba(15, 18, 24, 0.04);
   }
 
@@ -110,14 +112,14 @@ body {
   }
 
   .btn-primary {
-    @apply rounded-md bg-gradient-to-b from-steel-600 to-steel-700 px-4 py-2 text-sm font-medium text-steel-50 shadow-sm transition hover:from-steel-500 hover:to-steel-600 disabled:opacity-50 dark:from-steel-500 dark:to-steel-600 dark:hover:from-steel-400 dark:hover:to-steel-500;
+    @apply inline-flex min-h-11 items-center justify-center rounded-md bg-gradient-to-b from-steel-600 to-steel-700 px-4 py-2 text-sm font-medium text-steel-50 shadow-sm transition hover:from-steel-500 hover:to-steel-600 disabled:opacity-50 dark:from-steel-500 dark:to-steel-600 dark:hover:from-steel-400 dark:hover:to-steel-500;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.12),
       0 1px 2px rgba(15, 18, 24, 0.15);
   }
 
   .btn-secondary {
-    @apply rounded-md border border-steel-300/90 bg-steel-100/60 px-4 py-2 text-sm font-medium text-steel-700 transition hover:bg-steel-200/70 dark:border-steel-600 dark:bg-steel-800/50 dark:text-steel-200 dark:hover:bg-steel-700/50;
+    @apply inline-flex min-h-11 items-center justify-center rounded-md border border-steel-300/90 bg-steel-100/60 px-4 py-2 text-sm font-medium text-steel-700 transition hover:bg-steel-200/70 dark:border-steel-600 dark:bg-steel-800/50 dark:text-steel-200 dark:hover:bg-steel-700/50;
     box-shadow: inset 0 1px 0 var(--steel-shine);
   }
 

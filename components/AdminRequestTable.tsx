@@ -77,7 +77,7 @@ export function AdminRequestTable({ requests }: { requests: AdminRequestRow[] })
             {requests.map((req) => (
               <tr key={req.id}>
                 <td className="px-4 py-3 align-top">
-                  <div className="font-medium">{req.user.email ?? req.user.id}</div>
+                  <div className="max-w-[9rem] break-all font-medium sm:max-w-none">{req.user.email ?? req.user.id}</div>
                   {req.user.name && (
                     <div className={mutedTextClassName}>{req.user.name}</div>
                   )}

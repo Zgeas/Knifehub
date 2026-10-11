@@ -24,7 +24,7 @@ export function FeedCardGallery({ images, knifeName, href }: Props) {
   if (galleryImages.length === 0) {
     return (
       <div
-        className={`flex h-[400px] w-full items-center justify-center ${imagePlaceholderClassName} ${mutedTextClassName}`}
+        className={`flex aspect-[4/3] max-h-[400px] w-full items-center justify-center sm:h-[400px] sm:aspect-auto ${imagePlaceholderClassName} ${mutedTextClassName}`}
       >
         <span className="text-sm">Aucune image</span>
       </div>
@@ -37,7 +37,7 @@ export function FeedCardGallery({ images, knifeName, href }: Props) {
   return (
     <div className="border-b border-steel-200/80 dark:border-steel-700/80">
       <Link href={href} className="block">
-        <div className="relative h-[400px] w-full overflow-hidden bg-steel-100 dark:bg-steel-900/80">
+        <div className="relative aspect-[4/3] max-h-[400px] w-full overflow-hidden bg-steel-100 sm:h-[400px] sm:aspect-auto dark:bg-steel-900/80">
           <img
             key={selected.id}
             src={selected.url}

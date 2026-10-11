@@ -90,7 +90,7 @@ export function ProfilePhotoField({
         </div>
 
         <div className="min-w-0 flex-1 space-y-2">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             <input
               type="text"
               value={urlInput}
@@ -102,7 +102,7 @@ export function ProfilePhotoField({
               type="button"
               onClick={handleAddUrl}
               disabled={!urlInput.trim()}
-              className={`${btnSecondaryClassName} shrink-0`}
+              className={`${btnSecondaryClassName} w-full shrink-0 sm:w-auto`}
             >
               Ajouter URL
             </button>
@@ -110,7 +110,7 @@ export function ProfilePhotoField({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className={`${btnSecondaryClassName} shrink-0`}
+              className={`${btnSecondaryClassName} w-full shrink-0 sm:w-auto`}
             >
               {uploading ? "Envoi…" : "Envoyer un fichier"}
             </button>

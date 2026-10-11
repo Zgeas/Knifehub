@@ -50,7 +50,7 @@ export default async function KnifeDetailPage({ params }: Props) {
 
         <div>
           <div className="flex flex-wrap items-start gap-3">
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{knife.name}</h1>
+            <h1 className="min-w-0 text-2xl font-semibold tracking-tight break-words sm:text-3xl">{knife.name}</h1>
             <StatusBadge status={knife.status} />
           </div>
 

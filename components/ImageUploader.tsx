@@ -142,7 +142,7 @@ export function ImageUploader({ initialImages = [], fieldName = "imagesPayload" 
 
       <input type="hidden" name={fieldName} value={payload} readOnly />
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <input
           type="url"
           value={urlInput}
@@ -155,7 +155,7 @@ export function ImageUploader({ initialImages = [], fieldName = "imagesPayload" 
           type="button"
           onClick={handleAddUrl}
           disabled={images.length >= MAX_KNIFE_IMAGES || !urlInput.trim()}
-          className="btn-secondary shrink-0"
+          className="btn-secondary w-full shrink-0 sm:w-auto"
         >
           Ajouter URL
         </button>
@@ -163,7 +163,7 @@ export function ImageUploader({ initialImages = [], fieldName = "imagesPayload" 
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={images.length >= MAX_KNIFE_IMAGES || uploading}
-          className="btn-secondary shrink-0"
+          className="btn-secondary w-full shrink-0 sm:w-auto"
         >
           {uploading ? "Envoi…" : "Envoyer fichier"}
         </button>

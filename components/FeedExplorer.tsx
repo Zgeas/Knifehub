@@ -115,7 +115,7 @@ function FeedExplorerInner({ artisans, materials, resultCount, totalCount, child
                   <ul className="mt-3 space-y-2">
                     {artisans.map((artisan) => (
                       <li key={artisan.id}>
-                        <label className="flex cursor-pointer items-start gap-2 text-sm">
+                        <label className="flex min-h-11 cursor-pointer items-center gap-2 py-1 text-sm">
                           <input
                             type="checkbox"
                             className="mt-0.5"
@@ -152,7 +152,7 @@ function FeedExplorerInner({ artisans, materials, resultCount, totalCount, child
                   <ul className="mt-3 space-y-2">
                     {group.values.map((value) => (
                       <li key={value}>
-                        <label className="flex cursor-pointer items-start gap-2 text-sm">
+                        <label className="flex min-h-11 cursor-pointer items-center gap-2 py-1 text-sm">
                           <input
                             type="checkbox"
                             className="mt-0.5"
