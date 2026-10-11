@@ -1,29 +1,11 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import { UserRole } from "@prisma/client"
 import { prisma } from "@/lib/db"
+import { isBootstrapAdmin, roleForEmail } from "@/lib/auth-roles"
+
+export { BOOTSTRAP_ADMIN_EMAIL, BOOTSTRAP_ADMIN_EMAILS, isBootstrapAdmin } from "@/lib/auth-roles"
 
 export const USER_COOKIE = "userId"
-
-/** Comptes promus admin automatiquement à la connexion. */
-export const BOOTSTRAP_ADMIN_EMAILS = [
-  "admin@example.com",
-  "allan.duee@gmail.com",
-] as const
-
-export const BOOTSTRAP_ADMIN_EMAIL = BOOTSTRAP_ADMIN_EMAILS[0]
-
-function normalizeEmail(email: string): string {
-  return email.trim().toLowerCase()
-}
-
-function isAdminEmail(email: string): boolean {
-  return BOOTSTRAP_ADMIN_EMAILS.includes(normalizeEmail(email) as (typeof BOOTSTRAP_ADMIN_EMAILS)[number])
-}
-
-function roleForEmail(email: string): UserRole {
-  return isAdminEmail(email) ? "ADMIN" : "USER"
-}
 
 export async function getCurrentUser() {
   const cookieStore = await cookies()
@@ -62,7 +44,7 @@ export async function findOrCreateUserByEmail(email: string) {
   })
 
   if (existing) {
-    if (isAdminEmail(normalized) && existing.role !== "ADMIN") {
+    if (isBootstrapAdmin(normalized) && existing.role !== "ADMIN") {
       return prisma.user.update({
         where: { id: existing.id },
         data: { role: "ADMIN" },
@@ -79,11 +61,6 @@ export async function findOrCreateUserByEmail(email: string) {
     },
     include: { artisanProfile: true },
   })
-}
-
-export function isBootstrapAdmin(email: string | null | undefined): boolean {
-  if (!email) return false
-  return isAdminEmail(email)
 }
 
 export async function requireUser() {

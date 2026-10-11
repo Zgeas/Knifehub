@@ -1,0 +1,36 @@
+---
+description: Maintenir le référentiel fonctionnalités et les tests à chaque tâche KnifeHub
+alwaysApply: true
+---
+
+# Docs et tests (obligatoire)
+
+Tu es l’agent principal : ne délègue pas cette routine. Fichiers : `docs/FEATURES.md`, `docs/TEST-PLAN.md`, `docs/TEST-RESULTS.md`, `docs/TESTING.md`.
+
+## Avant de modifier le code
+
+1. Identifier les `F-xxx` concernés dans `docs/FEATURES.md`.
+2. Lire les `TEST-Fxxx` liés dans `docs/TEST-PLAN.md`.
+3. Lister régressions (auth, Prisma, images, permissions).
+4. Si le comportement attendu, une API ou un modèle change : mettre à jour le référentiel **dans le même travail**.
+
+## Pendant
+
+- Ajouter ou adapter les tests avec le code. Ne pas inventer de scénarios vides.
+- Ne pas changer un attendu de test pour masquer un défaut.
+- Nouvelle fonctionnalité → nouvel `F-xxx` (ne jamais réutiliser un ID retiré) + scénarios.
+- Correction de bug → test de régression.
+- Cosmétique pur : pas de tests artificiels ; ne pas toucher aux statuts sans raison.
+
+## Après
+
+- Exécuter `npm run test` et, si Prisma/auth/upload/pages : `npm run test:integration` et/ou `npm run test:e2e` (voir `docs/TESTING.md`).
+- **Jamais** reset/push destructif sur `dev.db`. Les tests ciblent `prisma/test.db`.
+- Mettre à jour les statuts (`TESTED` seulement si les tests prévus ont **vraiment** réussi).
+- Si un test n’a pas pu tourner : le dire et `docs/TEST-RESULTS.md` = Non exécuté / Bloqué. N’invente aucun résultat.
+- Campagne pertinente (`test:all`, CI, auth, données) → actualiser `TEST-RESULTS.md`.
+
+## Bases et secrets
+
+- Pas d’opération destructive sur la base de développement ou de production.
+- Ne pas consigner de secrets `.env` dans docs ou tests. Comptes de test = `*@knifehub.test` uniquement.

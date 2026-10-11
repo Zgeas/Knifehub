@@ -7,6 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check": "tsc --noEmit",
+    "check:lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:db:prepare": "node scripts/prepare-test-db.mjs",
+    "test:integration": "npm run test:db:prepare && vitest run --config vitest.integration.config.ts",
+    "test:e2e": "npm run test:db:prepare && npm run build && playwright test",
+    "test:all": "npm run check && npm run test && npm run test:integration && npm run test:e2e",
     "db:migrate": "prisma migrate dev",
     "postinstall": "prisma generate"
   },
@@ -23,8 +31,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
+    "@playwright/test": "^1.56.1",
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }
