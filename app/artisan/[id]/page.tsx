@@ -1,11 +1,12 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
+import { getCurrentUser } from "@/lib/auth"
 import { buildProfileLinks } from "@/lib/profile"
 import { getArtisanDisplayName } from "@/lib/artisan"
 import { knifeImagesInclude } from "@/lib/knife-images"
 import { KnifeCard } from "@/components/KnifeCard"
-import { cardClassName, dividerClassName, imagePlaceholderClassName, linkBackClassName, mutedTextClassName } from "@/lib/ui"
+import { btnSecondaryClassName, cardClassName, dividerClassName, imagePlaceholderClassName, linkBackClassName, mutedTextClassName } from "@/lib/ui"
 
 type Props = {
   params: Promise<{ id: string }>
@@ -14,21 +15,25 @@ type Props = {
 export default async function ArtisanProfilePage({ params }: Props) {
   const { id } = await params
 
-  const artisan = await prisma.artisanProfile.findUnique({
-    where: { id },
-    include: {
-      knives: {
-        include: {
-          artisanProfile: true,
-          ...knifeImagesInclude,
+  const [artisan, user] = await Promise.all([
+    prisma.artisanProfile.findUnique({
+      where: { id },
+      include: {
+        knives: {
+          include: {
+            artisanProfile: true,
+            ...knifeImagesInclude,
+          },
+          orderBy: { createdAt: "desc" },
         },
-        orderBy: { createdAt: "desc" },
       },
-    },
-  })
+    }),
+    getCurrentUser(),
+  ])
 
   if (!artisan) notFound()
 
+  const canEdit = user?.artisanProfile?.id === artisan.id
   const name = getArtisanDisplayName(artisan)
   const profileLinks = buildProfileLinks(artisan)
   const hasInfo =
@@ -64,6 +69,11 @@ export default async function ArtisanProfilePage({ params }: Props) {
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-steel-700 dark:text-steel-300">
               {artisan.bio}
             </p>
+          )}
+          {canEdit && (
+            <Link href="/profile" className={`mt-6 inline-block ${btnSecondaryClassName}`}>
+              Modifier le profil
+            </Link>
           )}
         </div>
       </header>

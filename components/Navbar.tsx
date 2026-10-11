@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { getCurrentUser } from "@/lib/auth"
 import { logout } from "@/app/login/actions"
+import { SearchBar } from "@/components/SearchBar"
 import { linkMutedClassName } from "@/lib/ui"
 
 const links = [
@@ -12,12 +13,13 @@ export async function Navbar() {
   const user = await getCurrentUser()
 
   return (
-    <header className="surface-header">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link href="/" className="metallic-text text-lg font-semibold tracking-tight">
+    <header className="surface-header sticky top-0 z-50">
+      <nav className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3 sm:px-6">
+        <Link href="/" className="metallic-text shrink-0 text-lg font-semibold tracking-tight">
           KnifeHub
         </Link>
-        <div className="flex items-center gap-6">
+        <SearchBar className="order-last w-full sm:order-none sm:min-w-0 sm:flex-1 sm:px-2" />
+        <div className="ml-auto flex items-center gap-6">
           <ul className="flex gap-6 text-sm font-medium">
             {links.map((link) => (
               <li key={link.href}>
@@ -38,9 +40,14 @@ export async function Navbar() {
             </Link>
           )}
           {user && (user.role === "ARTISAN" || user.role === "ADMIN") && user.artisanProfile && (
-            <Link href="/knives/new" className={`text-sm font-medium ${linkMutedClassName}`}>
-              Ajouter un couteau
-            </Link>
+            <>
+              <Link href="/profile" className={`text-sm font-medium ${linkMutedClassName}`}>
+                Mon profil
+              </Link>
+              <Link href="/knives/new" className={`text-sm font-medium ${linkMutedClassName}`}>
+                Ajouter un couteau
+              </Link>
+            </>
           )}
           {user ? (
             <div className="flex items-center gap-3 text-sm">

@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { inputClassName } from "@/lib/artisan-profile-form"
 import { btnPrimaryClassName, linkBackClassName } from "@/lib/ui"
+import { ProfilePhotoField } from "@/components/ProfilePhotoField"
 
 const emptyForm = {
   displayName: "",
@@ -111,19 +112,10 @@ export function BecomeArtisanForm() {
         />
       </div>
 
-      <div>
-        <label htmlFor="imageUrl" className="block text-sm font-medium">
-          URL de l'image de profil
-        </label>
-        <input
-          id="imageUrl"
-          type="url"
-          value={form.imageUrl}
-          onChange={(e) => updateField("imageUrl", e.target.value)}
-          placeholder="https://…"
-          className={inputClassName}
-        />
-      </div>
+      <ProfilePhotoField
+        value={form.imageUrl}
+        onChange={(url) => updateField("imageUrl", url)}
+      />
 
       <div>
         <label htmlFor="website" className="block text-sm font-medium">

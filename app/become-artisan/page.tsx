@@ -2,7 +2,7 @@ import Link from "next/link"
 import { requireUser } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { BecomeArtisanForm } from "@/components/BecomeArtisanForm"
-import { cardClassName, linkBackClassName, mutedTextClassName } from "@/lib/ui"
+import { cardClassName, linkBackClassName, linkMutedClassName, mutedTextClassName } from "@/lib/ui"
 
 function StatusBox({
   title,
@@ -40,8 +40,18 @@ export default async function BecomeArtisanPage() {
         <StatusBox
           variant="artisan"
           title="Vous êtes déjà artisan"
-          description="Votre compte a accès aux fonctions artisan. Vous pouvez publier des couteaux depuis la page Ajouter un couteau."
+          description="Votre compte a accès aux fonctions artisan. Vous pouvez modifier votre profil ou publier des couteaux."
         />
+        {user.artisanProfile && (
+          <p className="mt-4 flex gap-4 text-sm">
+            <Link href="/profile" className={linkMutedClassName}>
+              Modifier mon profil
+            </Link>
+            <Link href="/knives/new" className={linkMutedClassName}>
+              Ajouter un couteau
+            </Link>
+          </p>
+        )}
       </div>
     )
   }
